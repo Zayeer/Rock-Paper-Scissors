@@ -31,7 +31,7 @@ rock.addEventListener("click", function () {
 		round.innerHTML = parseInt(round.innerHTML) + 1;
 		computerPoints.innerHTML = parseInt(computerPoints.innerHTML) + 1;
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "computer selected paper and earns a point";
+			result.innerHTML = "computer selected paper and earned a point";
 		}, 500);
 	}
 
@@ -70,7 +70,7 @@ paper.addEventListener("click", function () {
 		round.innerHTML = parseInt(round.innerHTML) + 1;
 		computerPoints.innerHTML = parseInt(computerPoints.innerHTML) + 1;
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "computer selected the scissors and earns a point";
+			result.innerHTML = "computer selected the scissors and earned a point";
 		}, 500);
 	}
 
@@ -85,7 +85,7 @@ scissors.addEventListener("click", function () {
 		round.innerHTML = parseInt(round.innerHTML) + 1;
 		computerPoints.innerHTML = parseInt(computerPoints.innerHTML) + 1;
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "computer selected rock and earns a point";
+			result.innerHTML = "computer selected rock and earned a point";
 		}, 500);
 	}
 
