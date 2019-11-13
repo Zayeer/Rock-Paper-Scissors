@@ -36,7 +36,6 @@ body {
 
 #rock:hover, #scissors:hover, #paper:hover {
     cursor: pointer;
-    outline: 1px solid #FF0000;
     border: none;
 }
 

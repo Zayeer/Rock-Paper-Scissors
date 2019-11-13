@@ -108,6 +108,9 @@ scissors.addEventListener("click", function () {
 /*function to end the game after total 5 rounds completed along with displaying "try again/play again" button*/
 function endOfTheGame() {
 	if (round.innerHTML >= "5") {
+		optionButtons.forEach(x => {
+			x.style.cssText = "outline: none";
+		});
 		document.getElementById('rock').disabled = true;
 		document.getElementById('paper').disabled = true;
 		document.getElementById('scissors').disabled = true;
@@ -157,4 +160,25 @@ restart.addEventListener("click", function () {
 	document.getElementById('paper').disabled = false;
 	document.getElementById('scissors').disabled = false;
 	result.innerHTML = "";
+});
+
+/*button outline property depending on the events*/
+var optionButtons = document.querySelectorAll("div.options button");
+optionButtons.forEach(x => {
+	if (round.innerHTML >= "5") {
+		x.addEventListener("mouseover", () => {
+			x.style.cssText = "outline: none";
+		});
+	}
+	else {
+		x.addEventListener("mouseover", () => {
+			x.style.cssText = "outline: 1px solid #FF0000";
+		});
+	}
+});
+
+optionButtons.forEach(x => {
+	x.addEventListener("mouseout", () => {
+		x.style.cssText = "outline: none";
+	});
 });
