@@ -23,7 +23,7 @@ rock.addEventListener("click", function () {
 	computerPlay();
 	if (compOption === rock) {
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Oops...computer too selected rock";
+			result.innerHTML = "Computer opted the same";
 		}, 500);
 	}
 
@@ -31,7 +31,7 @@ rock.addEventListener("click", function () {
 		round.innerHTML = parseInt(round.innerHTML) + 1;
 		computerPoints.innerHTML = parseInt(computerPoints.innerHTML) + 1;
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "computer selected paper and earned a point";
+			result.innerHTML = "Comp won! Paper beats Rock";
 		}, 500);
 	}
 
@@ -39,7 +39,7 @@ rock.addEventListener("click", function () {
 		round.innerHTML = parseInt(round.innerHTML) + 1;
 		userPoints.innerHTML = parseInt(userPoints.innerHTML) + 1;
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "computer selected scissors. You earned a point";
+			result.innerHTML = "You won! Rock beats Scissors";
 		}, 500);
 	}
 
@@ -55,14 +55,14 @@ paper.addEventListener("click", function () {
 		round.innerHTML = parseInt(round.innerHTML) + 1;
 		userPoints.innerHTML = parseInt(userPoints.innerHTML) + 1;
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Computer selected rock. You earned a point";
+			result.innerHTML = "You won! Paper beats Rock";
 		}, 500);
 
 	}
 
 	else if (compOption === paper) {
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Oops...computer too selected the paper";
+			result.innerHTML = "Comp opted the same";
 		}, 500);
 	}
 
@@ -70,7 +70,7 @@ paper.addEventListener("click", function () {
 		round.innerHTML = parseInt(round.innerHTML) + 1;
 		computerPoints.innerHTML = parseInt(computerPoints.innerHTML) + 1;
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "computer selected the scissors and earned a point";
+			result.innerHTML = "Comp won! Scissors beats Paper";
 		}, 500);
 	}
 
@@ -85,7 +85,7 @@ scissors.addEventListener("click", function () {
 		round.innerHTML = parseInt(round.innerHTML) + 1;
 		computerPoints.innerHTML = parseInt(computerPoints.innerHTML) + 1;
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "computer selected rock and earned a point";
+			result.innerHTML = "Comp won! Rock beats Scissors";
 		}, 500);
 	}
 
@@ -93,13 +93,13 @@ scissors.addEventListener("click", function () {
 		round.innerHTML = parseInt(round.innerHTML) + 1;
 		userPoints.innerHTML = parseInt(userPoints.innerHTML) + 1;
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Computer selected paper. You earned a point";
+			result.innerHTML = "You won! Scissors beats Paper";
 		}, 500);
 	}
 
 	else {
 		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Oops... computer too selected scissors";
+			result.innerHTML = "Comp opted the same";
 		}, 500)
 	}
 	endOfTheGame();
@@ -114,14 +114,13 @@ function endOfTheGame() {
 		document.getElementById('rock').disabled = true;
 		document.getElementById('paper').disabled = true;
 		document.getElementById('scissors').disabled = true;
-		clickSound.pause();
 		if (computerPoints.innerHTML > userPoints.innerHTML) {
 			var roundsTimerId = setTimeout(function () {
 				result.innerHTML = "GAME OVER!"
 			}, 3000);
 
 			var resultTimerId = setTimeout(function () {
-				result.innerHTML = "You Lost!";
+				result.innerHTML = "You Lose!";
 			}, 5000);
 
 			restart.innerHTML = "Try Again";
@@ -133,6 +132,7 @@ function endOfTheGame() {
 			var resultTimerId = setTimeout(function () {
 				result.innerHTML = "You won!";
 			}, 5000);
+			restart.innerHTML = "Play Again";
 		}
 		else {
 			var roundsTimerId = setTimeout(function () {
@@ -141,17 +141,17 @@ function endOfTheGame() {
 			var resultTimerId = setInterval(function () {
 				result.innerHTML = "It's a tie";
 			}, 5000);
+			restart.innerHTML = "Play Again";
 		}
 
 		var restartTimerId = setTimeout(function () {
-			restart.style.display = "block";
+			restart.style.display = "";
 		}, 8000);
 	}
 }
 
 /*below code executes when we click on "try again/play again" button*/
 restart.addEventListener("click", function () {
-	clickSound.play();
 	restart.style.display = "none";
 	round.innerHTML = "0";
 	userPoints.innerHTML = "0";
