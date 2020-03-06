@@ -7,7 +7,6 @@
 body {
     height: 95vh;
     overflow: hidden;
-    font-family: 'Domine', serif;
     font-size: 20px;
 }
 
@@ -32,12 +31,14 @@ body {
     background-color: #FFE4B5;
     border: none;
     outline: none;
+    box-shadow: 5px 10px grey;
 }
 
 #rock:hover, #scissors:hover, #paper:hover {
     cursor: pointer;
     border: none;
 }
+
 
 .round {
     display: flex;
@@ -66,11 +67,16 @@ body {
     background-color: black;
     color: white;
     border: none;
+    box-shadow: 2px 5px grey;
 }
 
 #restart:hover {
     cursor: pointer;
     border-color: blue;
+}
+
+#restart:active {
+    box-shadow: 2px 2px grey;
 }
 
 .reference-link {
