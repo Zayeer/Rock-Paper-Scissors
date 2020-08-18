@@ -1,179 +1,136 @@
 const container = document.querySelector(".container");
-const rock = document.querySelector('#rock');
-const paper = document.querySelector('#paper');
-const scissors = document.querySelector('#scissors');
-const choices = document.querySelectorAll('.choice');
-const result = document.querySelector('#result');
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.querySelector("#scissors");
+const choices = Array.from(document.querySelectorAll(".choice"));
+const result = document.querySelector("#result");
 let options = [rock, paper, scissors];
 let compOption;
-let round = document.querySelector('#round');
+let round = document.querySelector("#round");
 let userPoints = document.querySelector("#user-points");
 let computerPoints = document.querySelector("#computer-points");
-let restart = document.querySelector("#restart")
+let restart = document.querySelector("#restart");
+
+const count = function () {
+  return parseInt(round.innerText);
+};
 
 /*computer selects random option*/
 const computerPlay = function () {
-	compOption = options[Math.floor(Math.random() * options.length)];
-	return compOption;
+  return options[Math.floor(Math.random() * options.length)];
 };
 
+for (let i = 0; i < choices.length; i++) {
+  choices[i].addEventListener("click", (event) => {
+    gamePlay(event);
+    event.stopImmediatePropagation();
+  });
+}
 
+const winningOptions = {
+  paper: "rock",
+  scissors: "paper",
+  rock: "scissors",
+};
 
+const losingOptions = {
+  rock: "paper",
+  paper: "scissors",
+  scissors: "rock",
+};
 
-/*below code executes when we click on "rock" button*/
-rock.addEventListener("click", function () {
-	rock.style.setProperty("box-shadow", "2px 5px grey");
-	computerPlay();
-	if (compOption === rock) {
-		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Computer opted the same";
-		}, 500);
-	}
+function gamePlay(e) {
+  const userOption = e.currentTarget.getAttribute("id");
+  e.currentTarget.style.setProperty("box-shadow", "2px 5px grey");
+  compOption = computerPlay().getAttribute("id");
+  round.innerText = parseInt(round.innerText) + 1;
+  if (losingOptions[userOption] === compOption) {
+    computerPoints.innerText = parseInt(computerPoints.innerHTML) + 1;
+    setTimeout(function () {
+      result.innerText = `Comp got a point! ${
+        compOption[0].toUpperCase() + compOption.slice(1)
+      } beats ${userOption[0].toUpperCase() + userOption.slice(1)}`;
+    }, 500);
+  } else if (winningOptions[userOption] === compOption) {
+    userPoints.innerText = parseInt(userPoints.innerText) + 1;
+    setTimeout(function () {
+      result.innerText = `You got a point! ${
+        userOption[0].toUpperCase() + userOption.slice(1)
+      } beats ${compOption[0].toUpperCase() + compOption.slice(1)}`;
+    }, 500);
+  } else {
+    setTimeout(function () {
+      round.innerText = parseInt(round.innerText) - 1;
+      result.innerText = "Computer opted the same";
+    }, 500);
+  }
 
-	else if (compOption === paper) {
-		round.innerHTML = parseInt(round.innerHTML) + 1;
-		computerPoints.innerHTML = parseInt(computerPoints.innerHTML) + 1;
-		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Comp won! Paper beats Rock";
-		}, 500);
-	}
-
-	else {
-		round.innerHTML = parseInt(round.innerHTML) + 1;
-		userPoints.innerHTML = parseInt(userPoints.innerHTML) + 1;
-		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "You won! Rock beats Scissors";
-		}, 500);
-	}
-
-	endOfTheGame();
-});
-
-/*below code executes when we click on "paper" button*/
-
-paper.addEventListener("click", function () {
-	paper.style.setProperty("box-shadow", "2px 5px grey");
-	computerPlay();
-	if (compOption === rock) {
-		round.innerHTML = parseInt(round.innerHTML) + 1;
-		userPoints.innerHTML = parseInt(userPoints.innerHTML) + 1;
-		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "You won! Paper beats Rock";
-		}, 500);
-
-	}
-
-	else if (compOption === paper) {
-		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Comp opted the same";
-		}, 500);
-	}
-
-	else {
-		round.innerHTML = parseInt(round.innerHTML) + 1;
-		computerPoints.innerHTML = parseInt(computerPoints.innerHTML) + 1;
-		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Comp won! Scissors beats Paper";
-		}, 500);
-	}
-
-	endOfTheGame();
-});
-
-/*below code executes when we click on "scissors" button*/
-scissors.addEventListener("click", function () {
-	scissors.style.setProperty("box-shadow", "2px 5px grey");
-	computerPlay();
-	if (compOption === rock) {
-		round.innerHTML = parseInt(round.innerHTML) + 1;
-		computerPoints.innerHTML = parseInt(computerPoints.innerHTML) + 1;
-		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Comp won! Rock beats Scissors";
-		}, 500);
-	}
-
-	else if (compOption === paper) {
-		round.innerHTML = parseInt(round.innerHTML) + 1;
-		userPoints.innerHTML = parseInt(userPoints.innerHTML) + 1;
-		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "You won! Scissors beats Paper";
-		}, 500);
-	}
-
-	else {
-		var resultTimerId = setTimeout(function () {
-			result.innerHTML = "Comp opted the same";
-		}, 500)
-	}
-	endOfTheGame();
-});
+  setTimeout(() => {
+    if (parseInt(round.innerText) >= 5) endOfTheGame();
+  }, 600);
+}
 
 /*function to end the game after total 5 rounds completed along with displaying "try again/play again" button*/
 const endOfTheGame = () => {
-	if (round.innerHTML >= "5") {
-		optionButtons.forEach(x => {
-			x.style.cssText = "outline: none";
-		});	
+  choices.forEach((choice) => {
+    choice.style.cssText = "outline: none";
+    choice.removeEventListener("click", gamePlay);
+    choice.disabled = true;
+  });
 
-		if (computerPoints.innerHTML > userPoints.innerHTML) {
-			var roundsTimerId = setTimeout(function () {
-				result.innerHTML = "GAME OVER!"
-			}, 3000);
+  gameResult(
+    parseInt(userPoints.innerText),
+    parseInt(computerPoints.innerText)
+  );
 
-			var resultTimerId = setTimeout(function () {
-				result.innerHTML = "YOU LOSE!";
-			}, 4000);
+  setTimeout(function () {
+    restart.style.display = "block";
+  }, 4000);
+};
 
-			restart.innerHTML = "Try Again";
-		}
-		else if (computerPoints.innerHTML < userPoints.innerHTML) {
-			var roundsTimerId = setTimeout(function () {
-				result.innerHTML = "GAME OVER!"
-			}, 2000);
-			var resultTimerId = setTimeout(function () {
-				result.innerHTML = "YOU WON!";
-			}, 4000);
-			restart.innerHTML = "Play Again";
-		}
-		else {
-			var roundsTimerId = setTimeout(function () {
-				result.innerHTML = "GAME OVER!"
-			}, 2000);
-			var resultTimerId = setInterval(function () {
-				result.innerHTML = "IT'S A TIE!";
-			}, 4000);
-			restart.innerHTML = "Play Again";
-		}
+function gameResult(uPoints, cPoints) {
+  setTimeout(function () {
+    result.innerHTML = "GAME OVER!";
+  }, 1000);
 
-		var restartTimerId = setTimeout(function () {
-			restart.style.display = "";
-		}, 7000);
-
-		let choicesDisabled = setTimeout(()=> {
-			document.getElementById('rock').disabled = true;
-			document.getElementById('paper').disabled = true;
-			document.getElementById('scissors').disabled = true;
-		}, 8000);
-	}
+  if (uPoints > cPoints) {
+    setTimeout(function () {
+      result.innerHTML = "YOU WON!";
+    }, 2000);
+    restart.innerHTML = "Play Again";
+  } else if (cPoints > uPoints) {
+    setTimeout(function () {
+      result.innerHTML = "YOU LOSE!";
+    }, 2000);
+    restart.innerHTML = "Try Again";
+  } else {
+    setInterval(function () {
+      result.innerHTML = "IT'S A TIE!";
+    }, 2000);
+    restart.innerHTML = "Try Again";
+  }
 }
 
 /*below code executes when we click on "try again/play again" button*/
 restart.addEventListener("click", function () {
-	restart.style.display = "none";
-	round.innerHTML = "0";
-	userPoints.innerHTML = "0";
-	computerPoints.innerHTML = "0";
-	document.getElementById('rock').disabled = false;
-	document.getElementById('paper').disabled = false;
-	document.getElementById('scissors').disabled = false;
-	result.innerHTML = "";
+  restart.style.display = "none";
+  round.innerHTML = "0";
+  userPoints.innerHTML = "0";
+  computerPoints.innerHTML = "0";
+  choices.forEach((choice) => {
+    choice.disabled = false;
+    choice.addEventListener("click", () => {
+      gamePlay(event);
+      event.stopImmediatePropagation();
+    });
+  });
+  result.innerHTML = "";
 });
 
 /*button outline property depending on the events*/
-const optionButtons = document.querySelectorAll("div.options button");
 
-optionButtons.forEach(x => {
-	x.addEventListener("mouseout", () => {
-		x.style.cssText = "outline: none";
-	});
+choices.forEach((choice) => {
+  choice.addEventListener("mouseout", () => {
+    choice.style.cssText = "outline: none";
+  });
 });
